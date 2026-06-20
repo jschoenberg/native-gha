@@ -45,6 +45,8 @@ def main():
             "sha": os.environ.get("GITHUB_SHA"),
         }
 
+        print(payload)
+
         print(
             f"Payload successfully prepared! Transmitting to queue at {backend_url}..."
         )
