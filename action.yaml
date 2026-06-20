@@ -1,0 +1,22 @@
+name: 'Native'
+description: 'Uses native uv to safely fetch OIDC tokens and queue jobs'
+inputs:
+  backend-url:
+    description: 'The URL of the backend queue service'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    # 1. Install uv dynamically on the host runner machine
+    - name: Set up uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "latest"
+
+    # 2. Run the script natively using uv's managed runtime environment
+    - name: Run Python Script
+      shell: bash
+      run: uv run ${{ github.action_path }}/src/main.py
+      env:
+        INPUT_BACKEND_URL: ${{ inputs.backend-url }}
