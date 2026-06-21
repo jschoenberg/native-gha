@@ -38,16 +38,16 @@ def main():
         oidc_token = get_oidc_token(backend_url)
 
         # Capture standard GitHub metadata properties injected automatically by the runner
-        payload = {
-            "token": oidc_token,
-            "repository": os.environ.get("GITHUB_REPOSITORY"),
-            "repository_owner": os.environ.get("GITHUB_REPOSITORY_OWNER"),
-            "sha": os.environ.get("GITHUB_SHA"),
-        }
+        # payload = {
+        #     "token": oidc_token,
+        #     "repository": os.environ.get("GITHUB_REPOSITORY"),
+        #     "repository_owner": os.environ.get("GITHUB_REPOSITORY_OWNER"),
+        #     "sha": os.environ.get("GITHUB_SHA"),
+        # }
 
-        payload = {"token": oidc_token, "env": dict(os.environ)}
+        # payload = {"token": oidc_token, "env": dict(os.environ)}
 
-        print(payload)
+        # print(payload)
 
         print(
             f"Payload successfully prepared! Transmitting to queue at {backend_url}..."
@@ -55,10 +55,13 @@ def main():
 
         assert backend_url
         # Uncomment this line when your backend route is live:
-        response = requests.post(backend_url, json=payload)
+        response = requests.post(
+            backend_url, headers={"Authorization": f"Bearer {oidc_token}"}
+        )
         response.raise_for_status()
 
         print("Success! Job successfully placed in the backend queue.")
+        print(response.json().get("message"))
 
     except Exception as e:
         print(f"::error::Action script execution failed: {e}")
