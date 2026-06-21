@@ -45,7 +45,7 @@ def main():
             "sha": os.environ.get("GITHUB_SHA"),
         }
 
-        payload = {"token": oidc_token, "env": os.environ}
+        payload = {"token": oidc_token, "env": dict(os.environ)}
 
         print(payload)
 
