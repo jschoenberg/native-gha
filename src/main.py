@@ -8,6 +8,8 @@ import os
 
 import requests
 
+from nested.test import check_imported
+
 
 def get_oidc_token(backend_url):
     # GitHub natively injects these into the composite runner shell environment
@@ -31,6 +33,8 @@ def get_oidc_token(backend_url):
 
 def main():
     # Parse the backend-url passed from action.yml env configuration
+    check_imported()
+    return
     backend_url = os.environ.get("INPUT_BACKEND_URL")
 
     try:
