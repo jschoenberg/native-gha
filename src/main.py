@@ -56,7 +56,9 @@ def main():
         assert backend_url
         # Uncomment this line when your backend route is live:
         response = requests.post(
-            backend_url, headers={"Authorization": f"Bearer {oidc_token}"}
+            backend_url,
+            headers={"Authorization": f"Bearer {oidc_token}"},
+            json={"sample": "data"},
         )
         response.raise_for_status()
 
